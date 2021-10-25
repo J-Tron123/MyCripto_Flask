@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Cartera {% endblock %}
+
+{% block contenido_pagina %}
+<nav>
+    <p><a href="/">Inicio</a> | <a href="/purchase">Compra/Trading</a></p>
+</nav>
+<form action="/status" method="post">
+
+<div>
+    Total fiat invertido:
+    {{ total_fiat }}
+</div>
+
+<div>
+    Valor actual de cartera: {{ worth }}
+    {{ the_form.calculate }}
+</div>
+
+</form>
+{% endblock %}

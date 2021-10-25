@@ -1,0 +1,43 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Compra/Trading {% endblock %}
+
+{% block contenido_pagina %}
+    <nav>
+        <p><a href="/">Inicio</a> | <a href="/status">Cartera</a></p>
+</nav>
+    <form action="/purchase" method="post">
+        {{ the_form.hidden_tag() }}
+
+        <div class="campo-formulario">Moneda de Origen:
+            {{ the_form.coin_from }}
+
+        Moneda de Destino:
+            {{ the_form.coin_to }}
+
+        </div>
+        <div class="campo-formulario">Cantidad de Origen:
+            {{ the_form.quantity_from }}
+        </div>
+        <div class="campo-formulario">
+            Cantidad de Destino:
+            {{ calculation }}
+        </div>
+
+        <div class="campo-formulario">
+            Precio Unitario:
+            {{ up }}
+        </div>
+        <div>
+            {{ the_form.convert }}
+        </div>
+        <div>
+            {{ the_form.buy }}
+        </div>
+        <div style = "visibility : hidden">
+            {{ the_form.quantity_to }}
+            {{ the_form.date }}
+            {{ the_form.time }}
+        </div>
+</form>
+{% endblock %}

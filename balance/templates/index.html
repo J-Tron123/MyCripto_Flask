@@ -1,0 +1,36 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Inicio {% endblock %}
+
+{% block contenido_pagina %}
+    <nav>
+        <p><a href="/purchase">Compra/Trading</a> | <a href="/status">Cartera</a></p>
+    </nav>
+    <h1>Transacciones</h1>
+    {% if items | length == 0 %}
+        <p>No tienes ninguna transacción, ve a Compra/Trading y haz una</p>
+    {% else %}
+    <table class="paper">
+        <tr>
+            <th>Id</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Moneda de origen</th>
+            <th>Cantidad de origen</th>
+            <th>Moneda de destino</th>
+            <th>Cantidad de destino</th>
+        </tr>
+        {% for item in items %}
+        <tr id={{ item.id }}>
+            <td>{{ item.id }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.time }}</td>
+            <td>{{ item.coin_from}}</td>
+            <td>{{ item.quantity_from }}</td>
+            <td>{{ item.coin_to}}</td>
+            <td>{{ item.quantity_to }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}
