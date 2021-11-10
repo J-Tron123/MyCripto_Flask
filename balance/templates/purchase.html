@@ -3,21 +3,35 @@
 {% block titulo_pagina %} Compra/Trading {% endblock %}
 
 {% block contenido_pagina %}
-    <nav>
-        <p><a href="/">Inicio</a> | <a href="/status">Cartera</a></p>
+<nav>
+    <p><a href="/">Transacciones</a> | <a href="/status">Cartera</a></p>
 </nav>
+        <h1>Compra/Trading</h1>
+        {% for error in errors %}
+        <p class="error">{{ error }}</p>
+    {% endfor %}
+
     <form action="/purchase" method="post">
         {{ the_form.hidden_tag() }}
 
         <div class="campo-formulario">Moneda de Origen:
             {{ the_form.coin_from }}
+            {% for error in the_form.coin_from.errors %}
+            <p class=error>{{ error }}</p>
+            {% endfor %}
 
         Moneda de Destino:
             {{ the_form.coin_to }}
+            {% for error in the_form.coin_to.errors %}
+            <p class=error>{{ error }}</p>
+            {% endfor %}
 
         </div>
         <div class="campo-formulario">Cantidad de Origen:
             {{ the_form.quantity_from }}
+            {% for error in the_form.quantity_from.errors %}
+            <p class=error>{{ error }}</p>
+            {% endfor %}
         </div>
         <div class="campo-formulario">
             Cantidad de Destino:

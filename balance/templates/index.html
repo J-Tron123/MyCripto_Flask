@@ -9,6 +9,19 @@
     <h1>Transacciones</h1>
     {% if items | length == 0 %}
         <p>No tienes ninguna transacción, ve a Compra/Trading y haz una</p>
+    {% elif items == [""] %}
+    <p class="error">Se ha producido un error en la base de datos, por favor consulta con tu administrador</p>
+    <table class="paper">
+        <tr>
+            <th>Id</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Moneda de origen</th>
+            <th>Cantidad de origen</th>
+            <th>Moneda de destino</th>
+            <th>Cantidad de destino</th>
+        </tr>
+    </table>
     {% else %}
     <table class="paper">
         <tr>
