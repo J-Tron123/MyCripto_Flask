@@ -51,13 +51,17 @@ def purchase():
                             calculation=f"No puedes calcular porque no tienes suficientes {coin_from},\
                             debes tener más que en la cantidad de destino")
                     else:
-                        answer = requests.get(URL.format(quantity_from, coin_from, coin_to, API_KEY)).json()
-                        quantity_to = answer["data"]["quote"][form.data["coin_to"]]["price"]
-                        form["quantity_to"].data = quantity_to
-                        form["date"].data = str(datetime.now().date())
-                        form["time"].data = str(datetime.now().time())
-                        form["quantity_from_buy"].data = quantity_from
-                        return render_template("purchase.html", the_form=form, calculation=quantity_to, up=quantity_from/quantity_to)
+                        try:
+                            answer = requests.get(URL.format(quantity_from, coin_from, coin_to, API_KEY)).json()
+                            quantity_to = answer["data"]["quote"][form.data["coin_to"]]["price"]
+                            form["quantity_to"].data = quantity_to
+                            form["date"].data = str(datetime.now().date())
+                            form["time"].data = str(datetime.now().time())
+                            form["quantity_from_buy"].data = quantity_from
+                            return render_template("purchase.html", the_form=form, calculation=quantity_to, up=quantity_from/quantity_to)
+                        except:
+                            return render_template("purchase.html", the_form=form, calculation="Se ha producido un error en la api\
+                            por favor consulte con su administrador")
                 except sqlite3.Error as e:
                     print(e)
                     return render_template("purchase.html", the_form=form, calculation="Se ha producido un error en la base de datos,\
@@ -72,11 +76,11 @@ def purchase():
                         return redirect(url_for("index"))
                     except sqlite3.Error as e:
                         print(e)
-                        return render_template("purchase.html", the_form=form, calculation="No se ha podido acceder a la base de datos\
-                        porfavor consulte con su administrador")
+                        return render_template("purchase.html", the_form=form, calculation="Se ha producido un error en la base de datos\
+                        por favor consulte con su administrador")
                 else:
                     return render_template("purchase.html", the_form=form, calculation="Haz cambiado datos,\
-                        porfavor vuelve a calcular")
+                        por favor vuelve a calcular")
             if form.data["buy"] == True and form["quantity_to"].data == "":
                 return render_template("purchase.html", the_form=form, calculation="Primero debes calcular")
             else:
@@ -152,5 +156,5 @@ def status():
             return render_template("status.html", the_form=form, total_fiat=statusx, worth=worth-z)
         except sqlite3.Error as e:
             print(e)
-            return render_template("status.html", the_form=form, total_fiat="No se ha podido acceder a la base de datos\
+            return render_template("status.html", the_form=form, total_fiat="Se ha producido un error en la base de datos\
             por favor consulte con su administrador")
