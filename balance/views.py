@@ -56,21 +56,27 @@ def purchase():
                         form["quantity_to"].data = quantity_to
                         form["date"].data = str(datetime.now().date())
                         form["time"].data = str(datetime.now().time())
+                        form["quantity_from_buy"].data = quantity_from
                         return render_template("purchase.html", the_form=form, calculation=quantity_to, up=quantity_from/quantity_to)
                 except sqlite3.Error as e:
                     print(e)
                     return render_template("purchase.html", the_form=form, calculation="Se ha producido un error en la base de datos,\
                     porfavor consulte con su administrador")
             if form.data["buy"] == True:
-                query = """INSERT INTO criptobalance (date, time, coin_from, quantity_from, coin_to, quantity_to) VALUES 
-                        (:date, :time, :coin_from, :quantity_from, :coin_to, :quantity_to)"""
-                try:
-                    dbcontroller.changeSQL(query, form.data)
-                    return redirect(url_for("index"))
-                except sqlite3.Error as e:
-                    print(e)
-                    return render_template("purchase.html", the_form=form, calculation="No se ha podido acceder a la base de datos\
-                    porfavor consulte con su administrador")
+                if (form["quantity_from_buy"].data == form.data["quantity_from"] and form["coin_from_buy"].data == form.data["coin_from"] and 
+                    form["coin_to_buy"] == form.data["coin_to"]):
+                    query = """INSERT INTO criptobalance (date, time, coin_from, quantity_from, coin_to, quantity_to) VALUES 
+                            (:date, :time, :coin_from, :quantity_from, :coin_to, :quantity_to)"""
+                    try:
+                        dbcontroller.changeSQL(query, form.data)
+                        return redirect(url_for("index"))
+                    except sqlite3.Error as e:
+                        print(e)
+                        return render_template("purchase.html", the_form=form, calculation="No se ha podido acceder a la base de datos\
+                        porfavor consulte con su administrador")
+                else:
+                    return render_template("purchase.html", the_form=form, calculation="Haz cambiado datos,\
+                        porfavor vuelve a calcular")
             if form.data["buy"] == True and form["quantity_to"].data == "":
                 return render_template("purchase.html", the_form=form, calculation="Primero debes calcular")
             else:

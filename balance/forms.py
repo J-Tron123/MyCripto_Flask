@@ -12,7 +12,8 @@ class Validators(FlaskForm):
     time = StringField("Hora de la transacción")
     coin_from = SelectField("Moneda de Origen", choices=options)
     quantity_from = FloatField("Cantidad de origen", validators=[DataRequired(message="El monto no puede ser 0"),
-                                                NumberRange(message="Debe informar superior a 0.000000000000001", min=0.000000000000001)])
+                                                    NumberRange(message="Debe informar superior a 0.000000000000001", min=0.000000000000001)])
+    quantity_from_buy = HiddenField("Validador de cantidad de otigen")
     coin_to = SelectField("Moneda de Destino",  choices=options)
     quantity_to = HiddenField("Cantidad de Destino")
     convert = SubmitField("Calcular")
