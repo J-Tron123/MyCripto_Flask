@@ -2,5 +2,5 @@
 data/
 .env
 venv/
-config.py
+config_.py
 .vscode
