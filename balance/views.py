@@ -83,8 +83,8 @@ def purchase():
                         por favor vuelve a calcular")
             if form.data["buy"] == True and form["quantity_to"].data == "":
                 return render_template("purchase.html", the_form=form, calculation="Primero debes calcular")
-            else:
-                return render_template("purchase.html", the_form=form)
+        else:
+            return render_template("purchase.html", the_form=form)
 
 @app.route("/status", methods=["GET", "POST"])
 def status():
