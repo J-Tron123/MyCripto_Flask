@@ -68,7 +68,7 @@ def purchase():
                     print(e)
                     return render_template("purchase.html", the_form=form, calculation="Se ha producido un error en la base de datos,\
                     porfavor consulte con su administrador")
-            if form.data["buy"] == True:
+            if form.data["buy"] == True and form.data["quantity_to"] != "":
                 if (float(form["quantity_from_buy"].data) == form.data["quantity_from"] and form["coin_from_buy"].data == 
                 form.data["coin_from"] and form["coin_to_buy"].data == form.data["coin_to"]):
                     query = """INSERT INTO criptobalance (date, time, coin_from, quantity_from, coin_to, quantity_to) VALUES 
@@ -83,7 +83,7 @@ def purchase():
                 else:
                     return render_template("purchase.html", the_form=form, calculation="Haz cambiado datos,\
                         por favor vuelve a calcular")
-            if form.data["buy"] == True and form["quantity_to"].data == "":
+            else:
                 return render_template("purchase.html", the_form=form, calculation="Primero debes calcular")
         else:
             return render_template("purchase.html", the_form=form)
