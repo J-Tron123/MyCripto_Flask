@@ -45,7 +45,7 @@ def purchase():
                     coin_to = form.data["coin_to"]
                     if coin_from == coin_to:
                         return render_template("purchase.html", the_form=form, 
-                        calculation="No puedes calcular la misma moneda de Origen que de Destino")
+                        calculation="No puedes calcular la misma moneda de origen que de destino")
                     if coin_from != "EUR" and quantity_from > validate_to[0]["SUM (quantity_to)"] - validate_from[0]["SUM (quantity_from)"]:
                             return render_template("purchase.html", the_form=form, 
                             calculation=f"No puedes calcular porque no tienes suficientes {coin_from},\
@@ -58,6 +58,8 @@ def purchase():
                             form["date"].data = str(datetime.now().date())
                             form["time"].data = str(datetime.now().time())
                             form["quantity_from_buy"].data = quantity_from
+                            form["coin_from_buy"].data = coin_from
+                            form["coin_to_buy"].data = coin_to
                             return render_template("purchase.html", the_form=form, calculation=quantity_to, up=quantity_from/quantity_to)
                         except:
                             return render_template("purchase.html", the_form=form, calculation="Se ha producido un error en la api\
@@ -67,7 +69,8 @@ def purchase():
                     return render_template("purchase.html", the_form=form, calculation="Se ha producido un error en la base de datos,\
                     porfavor consulte con su administrador")
             if form.data["buy"] == True:
-                if float(form["quantity_from_buy"].data) == form.data["quantity_from"]:
+                if (float(form["quantity_from_buy"].data) == form.data["quantity_from"] and form["coin_from_buy"].data == 
+                form.data["coin_from"] and form["coin_to_buy"].data == form.data["coin_to"]):
                     query = """INSERT INTO criptobalance (date, time, coin_from, quantity_from, coin_to, quantity_to) VALUES 
                             (:date, :time, :coin_from, :quantity_from, :coin_to, :quantity_to)"""
                     try:
