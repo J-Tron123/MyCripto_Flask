@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, FloatField, SubmitField
-from wtforms.fields.core import DateField, StringField, TimeField
+from wtforms import SelectField, FloatField, SubmitField, DateField, StringField, TimeField
 from wtforms.fields.simple import HiddenField
 from wtforms.validators import DataRequired, NumberRange, EqualTo
 
